@@ -1,0 +1,98 @@
+.sd-login-main {
+  width: 100%;
+  display: flex;
+  font-family: barlow, sans-serif;
+}
+.sd-l-left {
+  width: 50%;
+  padding: 60px;
+}
+.sd-l-right {
+  width: 50%;
+  padding: 60px;
+}
+.sd-l-right img {
+  height: 500px;
+  width: 100%;
+}
+h2 {
+  font-size: 28px;
+  color: #2f3193;
+  font-weight: 600;
+  margin-bottom: 4px !important;
+  line-height: 28px;
+}
+h3 {
+  letter-spacing: 0;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 35px !important;
+}
+.number,
+.password {
+  display: flex;
+  flex-direction: column;
+}
+.number label,
+.password label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 7px !important;
+}
+a {
+  color: rgb(47, 50, 147);
+  font-weight: 600;
+}
+button {
+  align-self: flex-start;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 13px;
+  border-radius: 4px;
+  line-height: 1.25;
+  margin-bottom: 24px;
+  display: flex;
+  white-space: nowrap;
+  color: rgb(255, 255, 255);
+  outline: none;
+  box-shadow: none;
+  border: none;
+  background-color: rgb(245, 130, 32);
+  align-items: center;
+}
+.help {
+  color: rgb(24, 24, 24)!important;
+}
+.forgot a{
+    font-size: 14px;
+    color: #2f3193!important;
+    font-weight: 600!important;
+}
+.number input,
+.password input {
+  border: none;
+  font-weight: 400;
+  background-color: rgb(234, 234, 234);
+  box-shadow: none;
+  outline: none;
+  height: 44px;
+  width: 380px;
+  max-width: 380px;
+  font-weight: 400;
+  position: relative;
+}
+.sd-l-leftbottom {
+  border-top: 1px solid #cccaca;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+}
+.sd-l-leftbottom a {
+  color: #2f3193 !important;
+}
+.sd-l-leftbottom p {
+  margin: 15px 0 0;
+  font-size: 21px;
+  letter-spacing: 0;
+  color: #181818;
+}
