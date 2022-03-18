@@ -1,6 +1,7 @@
 import React from "react";
 import RouterList from "./Routes/Routes";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import routMapMini from "./Routes/Routemapmini";
 
 import "./Navbar.css";
 
@@ -11,26 +12,26 @@ const Navbar = () => {
         <nav>
           <ul style={{ listStyleType: "none" }}>
             <li>
-              <Link to="/about"> About </Link>
+              <Link to={routMapMini.AboutPage}> About </Link>
             </li>
             <li>
-              <Link to="/donations"> Donations </Link>
+              <Link to={routMapMini.DonationPage}> Donations </Link>
             </li>
             <li>
-              <Link to="/sevas"> sevas and darshanam </Link>
+              <Link to={routMapMini.SevasPage}> sevas and darshanam </Link>
             </li>
             <li>
-              <Link to="/onlinebooking"> Online Booking </Link>
+              <Link to={routMapMini.OnlineBookingPage}> Online Booking </Link>
             </li>
             <li>
-              <Link to="/mediaroom"> Media Room </Link>
+              <Link to={routMapMini.MediaRoomPage}> Media Room </Link>
             </li>
             <li>
-              <Link to="/support"> Support</Link>
+              <Link to={routMapMini.SupportPage}> Support</Link>
             </li>
           </ul>
         </nav>
-      
+
         <RouterList />
       </div>
     </Router>
