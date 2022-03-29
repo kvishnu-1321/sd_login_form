@@ -1,6 +1,6 @@
 import React from "react";
 import RouterList from "./Routes/Routes";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router,  Link } from "react-router-dom";
 import routMapMini from "./Routes/Routemapmini";
 
 import "./Navbar.css";
@@ -31,9 +31,8 @@ const Navbar = () => {
             </li>
           </ul>
         </nav>
-
-        <RouterList />
       </div>
+      <RouterList />
     </Router>
   );
 };
