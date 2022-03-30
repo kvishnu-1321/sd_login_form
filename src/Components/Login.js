@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { useFormik } from "formik";
 import "./login.css";
 import img1 from "../Assets/images/sd-signin-image.jpg";
@@ -27,6 +28,18 @@ const Login = () => {
       return errors;
     },
   });
+
+  const onSubmit = async (values) => {
+    const response = await axios
+      .post("http://localhost:4000/api/", values)
+      .catch((err) => {
+        if (err && err.response);
+      });
+
+    if (response) {
+      alert("Welcome back in. Authenticating...");
+    }
+  };
 
   return (
     <div className="sd-login-main">
