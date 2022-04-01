@@ -1,10 +1,18 @@
-import React from "react";
+import { React, useEffect } from "react";
+// import {useHistory} from "react-router-dom"
 import axios from "axios";
 import { useFormik } from "formik";
 import "./login.css";
 import img1 from "../Assets/images/sd-signin-image.jpg";
 
 const Login = () => {
+  // const history=useHistory();
+  // useEffect(()=>{
+  //   if(localStorage.getItem('user-info')){
+  //     history.push("/about")
+  //   }
+  // })
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -30,8 +38,16 @@ const Login = () => {
   });
 
   const onSubmit = async (values) => {
+    let item = { values };
     const response = await axios
-      .post("http://localhost:4000/api/", values)
+      .post("https://ts-api.srisailadevasthanam.org/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(item),
+      })
       .catch((err) => {
         if (err && err.response);
       });
@@ -46,7 +62,7 @@ const Login = () => {
       <div className="sd-l-left">
         <h2>Sign in</h2>
         <h3>Login to your account</h3>
-        <form autoComplete="off" onSubmit={formik.handleSubmit}>
+        <form autoComplete="off">
           <div className="number">
             <label htmlFor="number">Mobile Number</label>
             <input
@@ -76,7 +92,7 @@ const Login = () => {
           <p className="forgot">
             <a href="">Forgot Password?</a>
           </p>
-          <button>Sign in</button>
+          <button onSubmit={onSubmit}>Sign in</button>
           <p className="help">
             Have trouble signing in?
             <span>
