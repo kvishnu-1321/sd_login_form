@@ -5,6 +5,7 @@ const routMapMini = {
   SevasPage: "/sevas",
   OnlineBookingPage: "/onlinebooking",
   SupportPage: "/support",
-  SignUpPage:"/signup"
+  SignUpPage:"/signup",
+  SignInPage:"/signin"
 }
 export default routMapMini;

@@ -1,6 +1,10 @@
 import { React, useState } from "react";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 //import { Link } from "react-router-dom";
 // import {useHistory} from "react-router-dom"
+import routMapMini from "./Routes/Routemapmini";
+
+
 import axios from "axios";
 import { useFormik } from "formik";
 import "./login.css";
@@ -113,7 +117,10 @@ const Login = () => {
         </form>
         <div className="sd-l-leftbottom">
           <p>
-            Dont have an account ?<a type="submit">Sign Up</a>
+            Dont have an account ?
+            <Link to={routMapMini.SignUpPage}>
+              <a type="submit">Sign Up</a>
+            </Link>
           </p>
         </div>
       </div>

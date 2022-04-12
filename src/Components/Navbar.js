@@ -1,6 +1,6 @@
 import React from "react";
 import RouterList from "./Routes/Routes";
-import { BrowserRouter as Router,  Link } from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import routMapMini from "./Routes/Routemapmini";
 
 import "./Navbar.css";
@@ -29,8 +29,9 @@ const Navbar = () => {
             <li>
               <Link to={routMapMini.SupportPage}> Support</Link>
             </li>
+
             <li>
-              <Link to={routMapMini.SignUpPage}>sign up</Link>
+              <Link to={routMapMini.SignInPage}>sign in/sign Up</Link>
             </li>
           </ul>
         </nav>
@@ -41,4 +42,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

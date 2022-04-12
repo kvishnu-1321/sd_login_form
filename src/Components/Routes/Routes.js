@@ -8,6 +8,7 @@ import Sevas from "../Pages/Sevas";
 import Support from "../Pages/Support";
 import routMapMini from "./Routemapmini";
 import Signup from "../Pages/Signup";
+import Login from "../Login";
 
 const RouterList = () => {
   return (
@@ -19,6 +20,7 @@ const RouterList = () => {
       <Route path={routMapMini.OnlineBookingPage} element={<OnlineBooking />} />
       <Route path={routMapMini.SupportPage} element={<Support />} />
       <Route path={routMapMini.SignUpPage} element={<Signup />} />
+      <Route path={routMapMini.SignInPage} element={<Login />} />
     </Routes>
   );
 };

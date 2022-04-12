@@ -1,13 +1,14 @@
-import { React , useState } from "react";
+import { React, useState } from "react";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 //import { Link } from "react-router-dom";
 // import {useHistory} from "react-router-dom"
+import routMapMini from "../Routes/Routemapmini";
 import axios from "axios";
 import { useFormik } from "formik";
 import "../login.css";
 import img1 from "../../Assets/images/sd-signin-image.jpg";
-import ReactPhoneInput from "react-phone-input-2";
-import 'react-phone-input-2/lib/style.css'
-
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 const Signup = () => {
   // const history=useHistory();
@@ -16,21 +17,21 @@ const Signup = () => {
   //     history.push("/about")
   //   }
   // })
-  const [phone , setPhone] = useState("");
-
-
+  //const [phone, setPhone] = useState("");
   const formik = useFormik({
     initialValues: {
       name: "",
       email: "",
       password: "",
+      phone: "",
     },
     onSubmit: (values) => {
+      console.log("hiii");
       console.log("form submit", values);
     },
     validate: (values) => {
       let errors = {};
-      if (!values.name) {
+      if (!values.phone) {
         errors.name = "Mobile number Required";
       }
       if (!values.email) {
@@ -44,6 +45,7 @@ const Signup = () => {
   });
 
   const onSubmit = async (values) => {
+    console.log(formik.initialValues);
     let item = { values };
     const response = await axios
       .post("https://ts-api.srisailadevasthanam.org/user/login", {
@@ -66,54 +68,77 @@ const Signup = () => {
   return (
     <div className="sd-login-main">
       <div className="sd-l-left">
-        <h2>Sign in</h2>
-        <h3>Login to your account</h3>
-        
-        <form autoComplete="off">
-          <div className="number">
-            <label htmlFor="number">Mobile Number</label>
-            <input
-              type="tel"
-              name="name"
-              id="name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-            />
-            {formik.errors.name ? (
-              <div className="errors">{formik.errors.name}</div>
-            ) : null}
-          </div>
+        <h2>Sign up</h2>
+        <h3>Create an account</h3>
+        <form autoComplete="off" onSubmit={formik.handleSubmit}>
+          <div className="signiup_details">
+            <div className="signup_top">
+              <div className="password">
+                <label>Display Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  onChange={formik.handleChange}
+                  value={formik.values.name}
+                />
+                {formik.errors.name ? (
+                  <div className="errors">{formik.errors.name}</div>
+                ) : null}
+              </div>
+              <div className="number">
+                <label htmlFor="number">Mobile Number</label>
 
-          <div className="password">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-            />
-            {formik.errors.password ? (
-              <div className="errors">{formik.errors.password}</div>
-            ) : null}
+                <PhoneInput
+                  className="react-tel-input"
+                  placeholder="enter mobile number"
+                  country={"in"}
+                  name="phone"
+                  value={formik.values.phone}
+                  //onChange={(e) => setPhone( e.target.value)}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.phone ? (
+                  <div className="errors">{formik.errors.phone}</div>
+                ) : null}
+              </div>
+            </div>
+            <div className="signup_bottom">
+              <div className="password">
+                <label>Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.password ? (
+                  <div className="errors">{formik.errors.password}</div>
+                ) : null}
+              </div>
+              <div className="password">
+                <label>Confirm Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                />
+                {formik.errors.password ? (
+                  <div className="errors">{formik.errors.password}</div>
+                ) : null}
+              </div>
+            </div>
           </div>
-
-          <p className="forgot">
-            <button>
-              <a href>Forgot Password?</a>
-            </button>
-          </p>
-          <button onSubmit={onSubmit}>Sign in</button>
-          <p className="help">
-            Have trouble signing in?
-            <span>
-              <a href>Get Help</a>
-            </span>
-          </p>
+          <button onSubmit={onSubmit}>Sign up</button>
         </form>
         <div className="sd-l-leftbottom">
           <p>
-            Dont have an account ?<a href>Sign Up</a>
+            Already have an account ?
+            <Link to={routMapMini.SignInPage}>
+              <a type="submit">Sign in</a>
+            </Link>
           </p>
         </div>
       </div>
