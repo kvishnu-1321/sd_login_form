@@ -1,35 +1,36 @@
-import { React, useState } from "react";
+import { React , useState } from "react";
 //import { Link } from "react-router-dom";
 // import {useHistory} from "react-router-dom"
 import axios from "axios";
 import { useFormik } from "formik";
-import "./login.css";
-import img1 from "../Assets/images/sd-signin-image.jpg";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
+import "../login.css";
+import img1 from "../../Assets/images/sd-signin-image.jpg";
+import ReactPhoneInput from "react-phone-input-2";
+import 'react-phone-input-2/lib/style.css'
 
-const Login = () => {
+
+const Signup = () => {
   // const history=useHistory();
   // useEffect(()=>{
   //   if(localStorage.getItem('user-info')){
   //     history.push("/about")
   //   }
   // })
-  const [phone, setPhone] = useState("");
+  const [phone , setPhone] = useState("");
+
+
   const formik = useFormik({
     initialValues: {
       name: "",
       email: "",
       password: "",
-      phone: "",
     },
     onSubmit: (values) => {
-      console.log("hiii");
       console.log("form submit", values);
     },
     validate: (values) => {
       let errors = {};
-      if (!values.phone) {
+      if (!values.name) {
         errors.name = "Mobile number Required";
       }
       if (!values.email) {
@@ -43,14 +44,13 @@ const Login = () => {
   });
 
   const onSubmit = async (values) => {
-    console.log(formik.initialValues);
     let item = { values };
     const response = await axios
       .post("https://ts-api.srisailadevasthanam.org/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json",
+          Accept: "application/json",
         },
         body: JSON.stringify(item),
       })
@@ -68,22 +68,22 @@ const Login = () => {
       <div className="sd-l-left">
         <h2>Sign in</h2>
         <h3>Login to your account</h3>
-        <form autoComplete="off" onSubmit={formik.handleSubmit}>
+        
+        <form autoComplete="off">
           <div className="number">
             <label htmlFor="number">Mobile Number</label>
-
-            <PhoneInput
-              className="react-tel-input"
-              country={"in"}
-              name="phone"
-              value={formik.values.phone}
-              //onChange={(e) => setPhone( e.target.value)}
+            <input
+              type="tel"
+              name="name"
+              id="name"
+              value={formik.values.name}
               onChange={formik.handleChange}
             />
             {formik.errors.name ? (
               <div className="errors">{formik.errors.name}</div>
             ) : null}
           </div>
+
           <div className="password">
             <label>Password</label>
             <input
@@ -99,21 +99,21 @@ const Login = () => {
           </div>
 
           <p className="forgot">
-            <a href="#">Forgot Password?</a>
+            <button>
+              <a href>Forgot Password?</a>
+            </button>
           </p>
           <button onSubmit={onSubmit}>Sign in</button>
           <p className="help">
             Have trouble signing in?
             <span>
-              <a href="#" style={{ color: "#2f3193" }}>
-                Get Help
-              </a>
+              <a href>Get Help</a>
             </span>
           </p>
         </form>
         <div className="sd-l-leftbottom">
           <p>
-            Dont have an account ?<a type="submit">Sign Up</a>
+            Dont have an account ?<a href>Sign Up</a>
           </p>
         </div>
       </div>
@@ -124,4 +124,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

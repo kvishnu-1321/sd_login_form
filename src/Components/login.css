@@ -32,6 +32,7 @@ h3 {
 .password {
   display: flex;
   flex-direction: column;
+  margin-top:15px;
 }
 .number label,
 .password label {
@@ -95,4 +96,35 @@ button {
   font-size: 21px;
   letter-spacing: 0;
   color: #181818;
+}
+.react-tel-input {
+  
+    position: relative;
+    font-size: 14px;
+    letter-spacing: .01rem;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    /* padding-left: 48px; */
+    margin-left: 0;
+    background: #FFFFFF;
+    border: 1px solid #CACACA;
+    border-radius: 5px;
+    line-height: 25px;
+    height: 43px;
+    width: 379px!important;
+    outline: none;
+    /* &.invalid-number {
+      border: 1px solid #d79f9f;
+      background-color: #FAF0F0;
+      border-left-color: #cacaca;
+      &:focus {
+        border: 1px solid #d79f9f;
+        border-left-color: #cacaca;
+        background-color: #FAF0F0;
+      } */
+    
+  }
+.react-tel-input .form-control {
+  height: 43px!important;
+    width: 380px!important;
 }

@@ -29,6 +29,9 @@ const Navbar = () => {
             <li>
               <Link to={routMapMini.SupportPage}> Support</Link>
             </li>
+            <li>
+              <Link to={routMapMini.SignUpPage}>sign up</Link>
+            </li>
           </ul>
         </nav>
       </div>
