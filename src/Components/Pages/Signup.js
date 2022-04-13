@@ -23,6 +23,7 @@ const Signup = () => {
       name: "",
       email: "",
       password: "",
+      Confirmpassword:"",
       phone: "",
     },
     onSubmit: (values) => {
@@ -39,6 +40,9 @@ const Signup = () => {
       }
       if (!values.password) {
         errors.password = "Password Required";
+      }
+      if (!values.Confirmpassword) {
+        errors.Confirmpassword = "Password Required";
       }
       return errors;
     },
@@ -119,14 +123,14 @@ const Signup = () => {
               <div className="password">
                 <label>Confirm Password</label>
                 <input
-                  type="password"
-                  name="password"
+                  type="Confirmpassword"
+                  name="Confirmpassword"
                   id="password"
-                  value={formik.values.password}
+                  value={formik.values.Confirmpassword}
                   onChange={formik.handleChange}
                 />
-                {formik.errors.password ? (
-                  <div className="errors">{formik.errors.password}</div>
+                {formik.errors.Confirmpassword ? (
+                  <div className="errors">{formik.errors.Confirmpassword}</div>
                 ) : null}
               </div>
             </div>
