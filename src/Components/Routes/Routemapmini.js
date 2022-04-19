@@ -6,6 +6,7 @@ const routMapMini = {
   OnlineBookingPage: "/onlinebooking",
   SupportPage: "/support",
   SignUpPage:"/signup",
-  SignInPage:"/signin"
+  SignInPage:"/signin",
+  OtpverifyPage:"/otpverifypage"
 }
 export default routMapMini;

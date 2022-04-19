@@ -1,73 +1,153 @@
-import { React, useState } from "react";
-import { BrowserRouter as Router, Link } from "react-router-dom";
-//import { Link } from "react-router-dom";
+import { React, useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+//import { withRouter } from "react-router";
+//import { Link} from "react-router-dom";
 // import {useHistory} from "react-router-dom"
 import routMapMini from "../Routes/Routemapmini";
 import axios from "axios";
 import { useFormik } from "formik";
-import "../login.css";
+import "./Signup.css";
 import img1 from "../../Assets/images/sd-signin-image.jpg";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
 
-const Signup = () => {
-  // const history=useHistory();
-  // useEffect(()=>{
-  //   if(localStorage.getItem('user-info')){
-  //     history.push("/about")
-  //   }
-  // })
-  //const [phone, setPhone] = useState("");
+import { EncryptInformation } from "./Encriptphonenum";
+
+const Signup = (props) => {
+  console.log(props);
+  const SITE_KEY = "6LfKG_QaAAAAAI9rFw0CjwXxTjEUWZkCMzVqyba6";
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, seterrorMessage] = useState("");
+  const [errArray, setErrArray] = useState([]);
+  const [selectedlanguage, setSelectedlanguage] = useState("en-in");
+
+  useEffect(() => {
+    const loadScriptByURL = (id, url, callback) => {
+      const isScriptExist = document.getElementById(id);
+
+      if (!isScriptExist) {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = url;
+        script.id = id;
+        script.onload = function () {
+          if (callback) callback();
+        };
+        document.body.appendChild(script);
+      }
+
+      if (isScriptExist && callback) callback();
+    };
+
+    // load the script by passing the URL
+    loadScriptByURL(
+      "recaptcha-key",
+      `https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`,
+      function () {
+        // console.log("Script loaded!");
+      }
+    );
+  }, []);
+
+  let navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       name: "",
       email: "",
       password: "",
-      Confirmpassword:"",
+      Confirmpassword: "",
       phone: "",
     },
-    onSubmit: (values) => {
-      console.log("hiii");
-      console.log("form submit", values);
-    },
+    // onSubmit: (values) => {
+    //   console.log("hiii");
+    //   console.log("form submit", values);
+    // },
     validate: (values) => {
       let errors = {};
+      if (!values.name) {
+        errors.name = "please enter the name";
+      }
       if (!values.phone) {
-        errors.name = "Mobile number Required";
+        errors.phone = "Mobile number Required";
       }
-      if (!values.email) {
-        errors.email = "Email Required";
-      }
+
       if (!values.password) {
         errors.password = "Password Required";
       }
       if (!values.Confirmpassword) {
-        errors.Confirmpassword = "Password Required";
+        errors.Confirmpassword = "Confirm Password Required";
       }
       return errors;
     },
-  });
 
-  const onSubmit = async (values) => {
-    console.log(formik.initialValues);
-    let item = { values };
-    const response = await axios
-      .post("https://ts-api.srisailadevasthanam.org/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(item),
-      })
-      .catch((err) => {
+    onSubmit: async (values) => {
+      console.log("kkkkkkkkkk");
+
+      //console.log(formik.initialValues);
+      try {
+        let item = { values };
+        console.log(values.phone);
+        const response = await axios.get(
+          `https://ts-api.srisailadevasthanam.org/user/is-registered?phone=%2B${values.phone}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log(" heloo hiii");
+        window.grecaptcha.ready(async () => {
+          console.log(" heloo hiii");
+          window.grecaptcha
+            .execute(SITE_KEY, { action: "submit" })
+            .then(async (token) => {
+              try {
+                //axios.post(https://ts-api.srisailadevasthanam.org/comms/send-otp
+
+                //  let res = await CommsService.sendOtp(
+                //    `+${values.phone}`,
+                //    "register",
+                //    token
+                //  );
+
+                let res = await axios.post(
+                  `https://ts-api.srisailadevasthanam.org/comms/send-otp`,
+                  {
+                    phone: EncryptInformation(`+91${values.phone}`),
+                    type: "register",
+                    captcha_human_key: token,
+                  },
+
+                  {
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  }
+                );
+                if (res) {
+                  setLoading(false);
+                  seterrorMessage("");
+                  //props?.history?.push(`routMapMini.AboutPage`);
+                  // <Redirect to="routMapMini.AboutPage" />;
+                  navigate(routMapMini.OtpverifyPage);
+                }
+              } catch (e) {
+                let data = [...errArray];
+                data.push({
+                  type: "common",
+                  msg: e?.message,
+                });
+                setErrArray(data);
+                setLoading(false);
+                seterrorMessage("");
+                // console.log(e);
+              }
+            });
+        });
+      } catch (err) {
         if (err && err.response);
-      });
-
-    if (response) {
-      alert("Welcome back in. Authenticating...");
-    }
-  };
+      }
+    },
+  });
 
   return (
     <div className="sd-login-main">
@@ -80,6 +160,7 @@ const Signup = () => {
               <div className="password">
                 <label>Display Name</label>
                 <input
+                  id="name"
                   type="text"
                   name="name"
                   onChange={formik.handleChange}
@@ -90,12 +171,14 @@ const Signup = () => {
                 ) : null}
               </div>
               <div className="number">
-                <label htmlFor="number">Mobile Number</label>
+                <label>Mobile Number</label>
 
-                <PhoneInput
-                  className="react-tel-input"
+                <input
+                  //className="react-tel-input"
                   placeholder="enter mobile number"
                   country={"in"}
+                  type="number"
+                  id="phone"
                   name="phone"
                   value={formik.values.phone}
                   //onChange={(e) => setPhone( e.target.value)}
@@ -111,8 +194,8 @@ const Signup = () => {
                 <label>Password</label>
                 <input
                   type="password"
-                  name="password"
                   id="password"
+                  name="password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
                 />
@@ -123,9 +206,9 @@ const Signup = () => {
               <div className="password">
                 <label>Confirm Password</label>
                 <input
-                  type="Confirmpassword"
+                  type="password"
+                  id="Confirmpassword"
                   name="Confirmpassword"
-                  id="password"
                   value={formik.values.Confirmpassword}
                   onChange={formik.handleChange}
                 />
@@ -135,13 +218,13 @@ const Signup = () => {
               </div>
             </div>
           </div>
-          <button onSubmit={onSubmit}>Sign up</button>
+          <button type="submit">Sign up</button>
         </form>
         <div className="sd-l-leftbottom">
           <p>
             Already have an account ?
             <Link to={routMapMini.SignInPage}>
-              <a type="submit">Sign in</a>
+              <a>Sign in</a>
             </Link>
           </p>
         </div>
