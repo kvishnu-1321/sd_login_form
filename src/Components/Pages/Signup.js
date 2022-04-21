@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, createContext, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 //import { withRouter } from "react-router";
 //import { Link} from "react-router-dom";
@@ -8,16 +8,28 @@ import axios from "axios";
 import { useFormik } from "formik";
 import "./Signup.css";
 import img1 from "../../Assets/images/sd-signin-image.jpg";
-
+import About from "./About";
 import { EncryptInformation } from "./Encriptphonenum";
+import {BaseContext} from "../../BaseContextProvider";
 
 const Signup = (props) => {
-  console.log(props);
+  const {
+    mobilenm,
+    setMobilenm,
+    devotename,
+    setDevoteName,
+    password,
+    setPassWord,
+   } = useContext(BaseContext);
+
   const SITE_KEY = "6LfKG_QaAAAAAI9rFw0CjwXxTjEUWZkCMzVqyba6";
   const [loading, setLoading] = useState(false);
   const [errorMessage, seterrorMessage] = useState("");
   const [errArray, setErrArray] = useState([]);
   const [selectedlanguage, setSelectedlanguage] = useState("en-in");
+  //const [mobilenum, setMobilenum] = useState("");
+  //const [devotename, setDevoteName] = useState("");
+  //const [password, setPassWord] = useState("");
 
   useEffect(() => {
     const loadScriptByURL = (id, url, callback) => {
@@ -57,11 +69,12 @@ const Signup = (props) => {
       Confirmpassword: "",
       phone: "",
     },
-    // onSubmit: (values) => {
-    //   console.log("hiii");
-    //   console.log("form submit", values);
-    // },
+
     validate: (values) => {
+      setMobilenm(`+91${values.phone}`);
+       setDevoteName(values.name);
+      setPassWord(values.password);
+      console.log(mobilenm,devotename,password);
       let errors = {};
       if (!values.name) {
         errors.name = "please enter the name";
@@ -81,11 +94,18 @@ const Signup = (props) => {
 
     onSubmit: async (values) => {
       console.log("kkkkkkkkkk");
+      // setMobilenum(`+91${values.phone}`);
+      // setDevoteName(values.name);
+      // setPassWord(values.password);
+      // console.log(mobilenum, devotename, password);
 
       //console.log(formik.initialValues);
+      //console.log(mobilenm, devotename, password);
       try {
-        let item = { values };
-        console.log(values.phone);
+        //let item = { values };
+        //console.log(values.phone);
+         
+
         const response = await axios.get(
           `https://ts-api.srisailadevasthanam.org/user/is-registered?phone=%2B${values.phone}`,
           {
@@ -101,14 +121,6 @@ const Signup = (props) => {
             .execute(SITE_KEY, { action: "submit" })
             .then(async (token) => {
               try {
-                //axios.post(https://ts-api.srisailadevasthanam.org/comms/send-otp
-
-                //  let res = await CommsService.sendOtp(
-                //    `+${values.phone}`,
-                //    "register",
-                //    token
-                //  );
-
                 let res = await axios.post(
                   `https://ts-api.srisailadevasthanam.org/comms/send-otp`,
                   {
@@ -126,8 +138,7 @@ const Signup = (props) => {
                 if (res) {
                   setLoading(false);
                   seterrorMessage("");
-                  //props?.history?.push(`routMapMini.AboutPage`);
-                  // <Redirect to="routMapMini.AboutPage" />;
+
                   navigate(routMapMini.OtpverifyPage);
                 }
               } catch (e) {
@@ -234,6 +245,7 @@ const Signup = (props) => {
       </div>
     </div>
   );
+
 };
 
 export default Signup;
